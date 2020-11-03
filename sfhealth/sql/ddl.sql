@@ -1,0 +1,28 @@
+DROP TABLE IF EXISTS "restaurant_scores";
+CREATE TABLE "restaurant_scores" (
+  "id" INT GENERATED ALWAYS AS IDENTITY,
+  "business_id" INT,
+  "business_name" varchar NOT NULL,
+  "business_address" varchar NOT NULL,
+  "business_city" varchar NOT NULL,
+  "business_state" varchar NOT NULL,
+  "business_postal_code" INT,
+  "business_latitude" REAL,
+  "business_longitude" REAL,
+  "business_location" varchar NOT NULL,
+  "business_phone_number" varchar,
+  "inspection_id" varchar,
+  "inspection_date" varchar,
+  "inspection_score" INT,
+  "inspection_type" varchar,
+  "violation_id" varchar,
+  "violation_description" varchar,
+  "risk_category" varchar,
+  "neighborhoods_old" varchar,
+  "police_districts" varchar,
+  "supervisor_districts" varchar,
+  "fire_prevention_districts" varchar,
+  "zip_codes" varchar,
+  "analysis_neighborhoods" varchar,
+  PRIMARY KEY ("id")
+);

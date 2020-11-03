@@ -1,0 +1,2 @@
+dbDriver=postgres
+dbConnStr=user=dineshs dbname=dineshs password=ChangeIt host=127.0.0.1 sslmode=disable

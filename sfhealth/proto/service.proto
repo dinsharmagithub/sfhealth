@@ -1,0 +1,79 @@
+syntax = "proto3";
+package proto;
+
+// import "google.api.http";
+// import "google/api/annotations.proto";
+
+enum code {
+    // Operation successful
+    OK = 0;
+
+    // Invalid argument provided by the client
+    INVALID_ARGUMENT = 1;
+
+    // Some invalid ask from the client
+    FAILED_PRECONDITION = 2;
+
+    //TODO add more return codes as per the need or standard
+}
+message Record {
+    optional int64 id = 1;
+    int64 business_id = 2;
+    string business_name = 3;
+    string business_address = 4;
+    string business_city = 5;
+    string business_state = 6;
+    int64 business_postal_code = 7;
+    double business_latitude = 8;
+    double business_longitude = 9;
+    string business_location = 10;
+    string business_phone_number = 11;
+    string inspection_id = 12;
+    string inspection_date = 13;
+    int32 inspection_score = 14;
+    string inspection_type = 15;
+    string violation_id = 16;
+    string violation_description = 17;
+    string risk_category = 18;
+    string neighborhoods_old = 19;
+    string police_districts = 20;
+    string supervisor_districts = 21;
+    string fire_prevention_districts = 22;
+    string zip_codes = 23;
+    string analysis_neighborhoods = 24;
+}
+message CreateRequest {
+    Record record = 1;
+}
+message CreateResponse {
+    code result = 1;
+}
+
+message DeleteRequest {
+    int64 id = 1;
+}
+message DeleteResponse {
+    code result = 1;
+}
+
+message UpdateRequest {
+    int64 id = 1;
+    Record record = 2;
+}
+message UpdateResponse {
+    code result = 1;
+}
+
+message ReadRequest {
+    optional int64 id = 1;
+}
+message ReadResponse {
+    repeated Record result = 1;
+}
+
+service CrudService {
+    rpc Create(CreateRequest) returns (CreateResponse);
+    rpc Delete(DeleteRequest) returns (DeleteResponse);
+    rpc Update(UpdateRequest) returns (UpdateResponse);
+    rpc Read(ReadRequest) returns (ReadResponse);
+}
