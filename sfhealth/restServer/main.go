@@ -99,7 +99,10 @@ func initialize() {
 	http.HandleFunc("/insert", createHandler)
 	http.HandleFunc("/update", updateHandler)
 	http.HandleFunc("/delete", deleteHandler)
-	//TODO Monitor, handle errors and bring down gracefully in case of panic
+	//TODO
+	// 1. Use ListenAndServeTLS for https
+	// 2. Either use mux or check r.method (get, post...) and allow only the needed
+	// 3. Monitor, handle errors and bring down gracefully in case of panic
 	http.ListenAndServe(restPort, nil)
 }
 func main() {
