@@ -3,8 +3,8 @@
 The work is an academic exercise completed in a limited time. Thus it needs a lot on the design and implementation part for being good.
 ## Objective
 - The objective is get the following done in given time
- - Get the implementation done the CRUD operations using GRPC
- - Provide REST based APIs for these operation
+  - Get the implementation done the CRUD operations using GRPC
+  - Provide REST based APIs for these operation
 ## Assumptions
 - The the database schema is already flattened and there is no effort done on normalizing it or thinking on any improvements on it. The table column types too thus are not put very thoughtfully.
 - The implementation of every aspect cannot be done in short duration so placeholders are kept for further code changes or enhancements at several places.
