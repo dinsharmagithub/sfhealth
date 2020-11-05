@@ -105,7 +105,7 @@ func main() {
 	}
 	//TODO if itme permits,
 	//   use the provide file for logging. Its unused as of now
-	//   Make the below code better
+	//   Make the below code better, handle sigint to support Ctrl+C and container stop request
 
 	ctx := Initialize(*logFilePath)
 	defer database.CloseDbConn(ctx)

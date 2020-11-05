@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
+	"os/signal"
 
 	"github.com/dinsharmagithub/sfhealth/proto"
 	"google.golang.org/grpc"
@@ -83,7 +85,21 @@ func deleteHandler(w http.ResponseWriter, r *http.Request) {
 	// }
 }
 
-func initialize() {
+func checkCtrlCAndShutdown(srv http.Server, listeningStopped chan struct{}) {
+	sigint := make(chan os.Signal, 1)
+	signal.Notify(sigint, os.Interrupt)
+	<-sigint
+
+	log.Printf("\nInterrupt signal received. Shutting down...\n")
+	// Interrupt signal received, shut down
+	if err := srv.Shutdown(context.Background()); err != nil {
+		// Error from closing listeners, or context timeout:
+		log.Printf("Server Shutdown: %v", err)
+	}
+	close(listeningStopped)
+}
+
+func startServer(srv http.Server) {
 	//TODO use config package for getting following hardcoded values from file
 	conn, err := grpc.Dial("localhost:4040", grpc.WithInsecure())
 	if err != nil {
@@ -103,9 +119,21 @@ func initialize() {
 	// 1. Use ListenAndServeTLS for https
 	// 2. Either use mux or check r.method (get, post...) and allow only the needed
 	// 3. Monitor, handle errors and bring down gracefully in case of panic
-	http.ListenAndServe(restPort, nil)
+	if err := srv.ListenAndServe(); err != http.ErrServerClosed {
+		// Error starting or closing listener:
+		log.Fatalf("HTTP server ListenAndServe: %v", err)
+	}
 }
 func main() {
 	//TODO reorganize and make code robust
-	initialize()
+	var srv http.Server
+	srv.Addr = restPort
+
+	listeningStopped := make(chan struct{})
+	go checkCtrlCAndShutdown(srv, listeningStopped)
+
+	go startServer(srv)
+
+	//Wait for sigint (Ctrl+C)
+	<-listeningStopped
 }
